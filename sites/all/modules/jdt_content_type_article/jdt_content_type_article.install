@@ -1,13 +1,11 @@
-<?php
-
+<?php  
 
 /**
  * Implements hook_update_N.
  */
-
-
 function jdt_content_type_article_update_7001() {
 	$module_list = array("ctools", "date", "features", "image", "strongarm", "text");
 	module_enable($module_list);
-	return t('jdt_content_type_article module is up to date.')
-}
+	
+	return t('jdt_content_type_article module is up to date.');
+}  
