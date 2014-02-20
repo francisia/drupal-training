@@ -43,6 +43,7 @@ features[variable][] = comment_default_per_page_article2
 features[variable][] = comment_form_location_article2
 features[variable][] = comment_preview_article2
 features[variable][] = comment_subject_field_article2
+features[variable][] = date_format_month_day_year
 features[variable][] = field_bundle_settings_node__article2
 features[variable][] = menu_options_article2
 features[variable][] = menu_parent_article2
