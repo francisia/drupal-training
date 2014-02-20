@@ -32,6 +32,16 @@ function jdt_content_type_article_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+    'title_1' => 'title_1',
+    'field_slug' => 'field_slug',
+    'field_article_image' => 'field_article_image',
+    'body' => 'body',
+    'field_article_date' => 'field_article_date',
+    'field_related_articles' => 'field_related_articles',
+    'field_contributor' => 'field_contributor',
+  );
+  $handler->display->display_options['row_options']['separator'] = '<br>';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
@@ -58,7 +68,7 @@ function jdt_content_type_article_views_default_views() {
   $handler->display->display_options['fields']['field_article_date']['table'] = 'field_data_field_article_date';
   $handler->display->display_options['fields']['field_article_date']['field'] = 'field_article_date';
   $handler->display->display_options['fields']['field_article_date']['settings'] = array(
-    'format_type' => 'long',
+    'format_type' => 'month_day_year',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
