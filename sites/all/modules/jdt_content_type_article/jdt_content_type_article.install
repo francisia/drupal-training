@@ -25,6 +25,20 @@ function jdt_content_type_article_update_7003() {
 }
 
 function jdt_content_type_article_update_7004() {
+	db_insert('date_formats') 
+	->fields(array(
+	  'format' => 'F j, Y',
+	  'type' => 'custom',
+	  'locked' => '0',
+	))
+	->execute();
+	db_insert('date_format_type') 
+	->fields(array(
+	  'type' => 'month_day_year',
+	  'title' => 'Month-Day-Year',
+	  'locked' => '0',
+	))
+	->execute();
 	$module_list = array("views_ui", "context", "context_ui", "search");
 	module_enable($module_list);
 	
