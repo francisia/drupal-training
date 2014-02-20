@@ -99,6 +99,85 @@ function jdt_content_type_article_field_default_field_bases() {
     'type' => 'image',
   );
 
+  // Exported field_base: 'field_contributor'
+  $field_bases['field_contributor'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_contributor',
+    'foreign keys' => array(
+      'uid' => array(
+        'columns' => array(
+          'uid' => 'uid',
+        ),
+        'table' => 'users',
+      ),
+    ),
+    'indexes' => array(
+      'uid' => array(
+        0 => 'uid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'user_reference',
+    'settings' => array(
+      'referenceable_roles' => array(
+        2 => 2,
+        3 => 3,
+      ),
+      'referenceable_status' => array(
+        0 => 0,
+        1 => 1,
+      ),
+      'view' => array(
+        'args' => array(),
+        'display_name' => '',
+        'view_name' => '',
+      ),
+    ),
+    'translatable' => 0,
+    'type' => 'user_reference',
+  );
+
+  // Exported field_base: 'field_related_articles'
+  $field_bases['field_related_articles'] = array(
+    'active' => 1,
+    'cardinality' => 3,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_related_articles',
+    'foreign keys' => array(
+      'nid' => array(
+        'columns' => array(
+          'nid' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
+    'indexes' => array(
+      'nid' => array(
+        0 => 'nid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'node_reference',
+    'settings' => array(
+      'referenceable_types' => array(
+        'article' => 0,
+        'article2' => 'article2',
+        'page' => 0,
+      ),
+      'view' => array(
+        'args' => array(),
+        'display_name' => '',
+        'view_name' => '',
+      ),
+    ),
+    'translatable' => 0,
+    'type' => 'node_reference',
+  );
+
   // Exported field_base: 'field_slug'
   $field_bases['field_slug'] = array(
     'active' => 1,

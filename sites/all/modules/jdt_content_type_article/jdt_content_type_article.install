@@ -8,4 +8,18 @@ function jdt_content_type_article_update_7001() {
 	module_enable($module_list);
 	
 	return t('jdt_content_type_article module is up to date.');
-}  
+}
+
+function jdt_content_type_article_update_7002() {
+	$module_list = array("field_group", "node_reference", "user_reference");
+	module_enable($module_list);
+	
+	return t('jdt_content_type_article module is up to date.');
+}
+
+/*function jdt_content_type_article_update_7003() {
+	$module_list = array("views");
+	module_enable($module_list);
+	
+	return t('jdt_content_type_article module is up to date.');
+}*/

@@ -103,7 +103,7 @@ function jdt_content_type_article_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_text',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -157,6 +157,88 @@ function jdt_content_type_article_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-article2-field_contributor'
+  $field_instances['node-article2-field_contributor'] = array(
+    'bundle' => 'article2',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Contributors of the article.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_contributor',
+    'label' => 'Contributor',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'user_reference',
+      'settings' => array(
+        'autocomplete_match' => 'contains',
+        'autocomplete_path' => 'user_reference/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'user_reference_autocomplete',
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-article2-field_related_articles'
+  $field_instances['node-article2-field_related_articles'] = array(
+    'bundle' => 'article2',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Other articles related to this article.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'node_reference',
+        'settings' => array(),
+        'type' => 'node_reference_default',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_related_articles',
+    'label' => 'Related Articles',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'node_reference',
+      'settings' => array(
+        'autocomplete_match' => 'contains',
+        'autocomplete_path' => 'node_reference/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'node_reference_autocomplete',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance: 'node-article2-field_slug'
   $field_instances['node-article2-field_slug'] = array(
     'bundle' => 'article2',
@@ -202,7 +284,11 @@ function jdt_content_type_article_field_default_field_instances() {
   t('Article Date');
   t('Article Image');
   t('Body');
+  t('Contributor');
+  t('Contributors of the article.');
   t('Date that article has been created on.');
+  t('Other articles related to this article.');
+  t('Related Articles');
   t('Slug');
   t('a picture to accompany the article');
   t('teaser of the article');
