@@ -1,0 +1,59 @@
+<?php
+/**
+ * @file
+ * jdt_user_notes module install file
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function jdt_user_notes_schema() {
+  $schema['user_article_notes'] = array(
+    'description' => 'Table for user notes added to articles.',
+    'fields' => array(
+      'note_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The note ID of the field, defined by the database.',
+        'no export' => TRUE,
+      ),
+      'article_nid' => array(
+        'description' => 'The article node ID',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      'author_uid' => array(
+        'description' => 'The author ID of the note',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'note_text' => array(
+        'description' => 'The text of the note',
+        'type' => 'VARCHAR',
+        'length' => '255',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'unique keys' => array(
+      'note_id' => array('note_id'),
+    ),
+    'foreign keys' => array(
+      'article_nid' => array(
+        'table' => 'node',
+        'columns' => array('vid' => 'vid'),
+      ),
+      'author_uid' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+    'primary key' => array('note_id'),
+  );
+  return $schema;
+}

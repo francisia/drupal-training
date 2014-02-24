@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * jdt_user_notes module .module file
+ */
+       
+/*
+ * Implementation of hook_permission()
+ */
+function jdt_user_notes_permission(){
+   return array(
+   	'add note' => array(
+   		'title' => t('Add note'),
+   		'description' => t('Add notes to articles'),
+   		),
+   	'edit note' => array(
+   		'title' => t('Edit note'),
+   		'description' => t('Edit notes on articles'),
+   		),
+   	'delete note' => array(
+   		'title' => t('Delete note'),
+   		'description' => t('Delete notes from articles'),
+   		),
+   	)
+}
