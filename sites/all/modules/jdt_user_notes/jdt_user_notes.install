@@ -34,7 +34,7 @@ function jdt_user_notes_schema() {
       ),
       'note_text' => array(
         'description' => 'The text of the note',
-        'type' => 'VARCHAR',
+        'type' => 'varchar',
         'length' => '255',
         'not null' => TRUE,
         'default' => '',

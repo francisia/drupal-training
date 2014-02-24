@@ -16,10 +16,12 @@ function jdt_user_notes_permission(){
    	'edit note' => array(
    		'title' => t('Edit note'),
    		'description' => t('Edit notes on articles'),
+   		'restrict access' => TRUE,
    		),
    	'delete note' => array(
    		'title' => t('Delete note'),
    		'description' => t('Delete notes from articles'),
+   		'restrict access' => TRUE,
    		),
-   	)
+   	);
 }
