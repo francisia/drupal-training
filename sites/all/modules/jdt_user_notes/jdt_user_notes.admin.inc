@@ -23,9 +23,8 @@ function jdt_user_notes_add_note_form($form, &$form_state, $node) {
 	);
 
 	$form['note_text'] = array(
-		'#type' => 'textfield',
+		'#type' => 'textarea',
 		'#title' => t('Note'),
-		'#maxlength' => 255,
 	);
 
 	$form['submit'] = array(
@@ -66,10 +65,9 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 	);
 
 	$form['note_text'] = array(
-		'#type' => 'textfield',
+		'#type' => 'textarea',
 		'#title' => t('Note'),
 		'#default_value' => $note->note_text,
-		'#maxlength' => 255,
 	);
 
 	$form['submit'] = array(
