@@ -6,21 +6,6 @@
  */
 
 /**
- * Lists all notes.
- */
-// function jdt_user_notes_list_notes($node) {
-// 	$notes = jdt_user_notes_get_notes($node->nid);
-// 	echo '<table><tr>';
-// 	echo '<th>Note</th>';
-// 	echo '<th>Actions</th></tr>';
-// 	foreach($notes as $note) {
-// 		echo '<tr><td>' . $note->note_text . '</td>';
-// 		echo '<td>Edit   Delete</td></tr>';
-// 	}
-// 	echo '</table>';
-// }
-
-/**
  * Form to add a note
  */
 function jdt_user_notes_add_note_form($form, &$form_state, $node) {
@@ -64,8 +49,6 @@ function jdt_user_notes_add_note_form_submit($form, &$form_state) {
 function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 	$form = array();
 
-	//$note = menu_get_object();
-
 	$form['note_id'] = array(
 		'#type' => 'hidden',
 		'#value' => $note->note_id,
@@ -106,8 +89,6 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 function jdt_user_notes_edit_note_form_submit($form, &$form_state) {
 	jdt_user_notes_update_note($form_state['values']['note_id'], $form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
 }
-
-
 
 
 /**

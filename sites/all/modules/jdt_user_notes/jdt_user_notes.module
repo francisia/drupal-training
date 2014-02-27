@@ -26,23 +26,7 @@ function jdt_user_notes_menu() {
     'access arguments' => array(1),
     'file' => 'jdt_user_notes.admin.inc',
   );
-  // $items['admin/content/note'] = array(
-  //   'title' => 'Notes',
-  //   'description' => 'List and edit site notes.',
-  //   'access arguments' => array('edit note'),
-  //   'type' => MENU_LOCAL_TASK,
-  // );
-  // $items['note/%/edit'] = array(
-  //   'title' => 'Edit note',
-  //   'description' => 'Edit a note on an article.',
-  //   'page callback' => 'jdt_user_notes_edit_page',
-  //   'page arguments' => array(1),
-  //   //'access callback' => 'comment_access',
-  //   'access arguments' => array('edit note'),
-  //   'type' => MENU_LOCAL_TASK,
-  //   'weight' => 3,
-  //   'file' => 'jdt_user_notes.admin.inc',
-  // );
+
   return $items;
 }
 
