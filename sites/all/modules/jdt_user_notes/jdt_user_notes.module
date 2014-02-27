@@ -54,7 +54,7 @@ function jdt_user_notes_add_note_access_callback($node) {
  */
 function jdt_user_notes_edit_note_access_callback($note) {
 	global $user;
-	return $user->uid == $note->author_uid && user_access('edit note');
+	return in_array('administrator', $user->roles) || ($user->uid == $note->author_uid && user_access('edit note'));
 }
        
 /*
