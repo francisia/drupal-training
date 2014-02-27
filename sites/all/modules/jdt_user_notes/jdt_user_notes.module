@@ -15,7 +15,6 @@ function jdt_user_notes_menu() {
     'page arguments' => array('jdt_user_notes_add_note_form'),
     'access callback' => 'jdt_user_notes_add_note_access_callback',
     'access arguments' => array(1),
-    'weight' => 2,
     'file' => 'jdt_user_notes.admin.inc',
   );
   $items['note/%jdt_user_notes/edit'] = array(
@@ -23,8 +22,8 @@ function jdt_user_notes_menu() {
     'description' => 'Edit notes.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_edit_note_form', 1),
-    'access arguments' => array('edit note'),
-    'weight' => 3,
+    'access callback' => 'jdt_user_notes_edit_note_access_callback',
+    'access arguments' => array(1),
     'file' => 'jdt_user_notes.admin.inc',
   );
   // $items['admin/content/note'] = array(
@@ -56,10 +55,13 @@ function jdt_user_notes_edit_page($note_id) {
   	return drupal_get_form("jdt_user_notes_edit_note_form", $note);
 }
 
-function jdt_user_notes_load($note){
+/**
+ * Loads the note object.
+ */
+function jdt_user_notes_load($note_id){
 	$result = db_select('jdt_user_notes_article_notes', 'jun')
 		->fields('jun')
-		->condition('note_id', $note)
+		->condition('note_id', $note_id)
 		->execute()
 		->fetchObject();
 	return $result;

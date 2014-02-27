@@ -16,7 +16,6 @@ function jdt_user_notes_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
         'description' => 'The note ID of the field, defined by the database.',
-        'no export' => TRUE,
       ),
       'article_nid' => array(
         'description' => 'The article node ID',

@@ -32,7 +32,6 @@ function jdt_user_notes_add_note_form($form, &$form_state) {
 	if ($node = menu_get_object()) {
 		$nid = $node->nid;
 	} 
-	dpm($node);
 	
 	$form['article_id'] = array(
 		'#type' => 'hidden',
@@ -72,7 +71,6 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 	$form = array();
 
 	//$note = menu_get_object();
-	dpm($note);
 
 	$form['note_id'] = array(
 		'#type' => 'hidden',
@@ -112,7 +110,6 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
  * Submit edit note form
  */
 function jdt_user_notes_edit_note_form_submit($form, &$form_state) {
-	dpm($form_state);
 	jdt_user_notes_update_note($form_state['values']['note_id'], $form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
 }
 
