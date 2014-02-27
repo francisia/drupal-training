@@ -56,17 +56,13 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 	);
 	
 	$form['article_id'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Article'),
+		'#type' => 'value',
 		'#value' => $note->article_nid,
-		'#disabled' => TRUE,
 	);
 
 	$form['author_id'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Author'),
+		'#type' => 'value',
 		'#value' => $note->author_uid,
-		'#disabled' => TRUE,
 	);
 
 	$form['note_text'] = array(
