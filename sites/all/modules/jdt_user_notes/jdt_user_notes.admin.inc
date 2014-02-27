@@ -40,7 +40,6 @@ function jdt_user_notes_add_note_form($form, &$form_state, $node) {
  * Submit add note form
  */
 function jdt_user_notes_add_note_form_submit($form, &$form_state) {
-	dpm($form_state);
 	jdt_user_notes_add_note($form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
 }
 
