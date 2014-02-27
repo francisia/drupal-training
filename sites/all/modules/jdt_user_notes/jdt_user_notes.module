@@ -3,6 +3,82 @@
  * @file
  * jdt_user_notes module .module file
  */
+
+/**
+ * Implements hook_menu().
+ */
+function jdt_user_notes_menu() {
+  $items['node/%node/addnote'] = array(
+    'title' => 'Add note',
+    'description' => 'Add note.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jdt_user_notes_add_note_form'),
+    'access callback' => 'jdt_user_notes_add_note_access_callback',
+    'access arguments' => array(1),
+    'weight' => 2,
+    'file' => 'jdt_user_notes.admin.inc',
+  );
+  $items['note/%jdt_user_notes/edit'] = array(
+    'title' => 'Edit notes',
+    'description' => 'Edit notes.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jdt_user_notes_edit_note_form', 1),
+    'access arguments' => array('edit note'),
+    'weight' => 3,
+    'file' => 'jdt_user_notes.admin.inc',
+  );
+  // $items['admin/content/note'] = array(
+  //   'title' => 'Notes',
+  //   'description' => 'List and edit site notes.',
+  //   'access arguments' => array('edit note'),
+  //   'type' => MENU_LOCAL_TASK,
+  // );
+  // $items['note/%/edit'] = array(
+  //   'title' => 'Edit note',
+  //   'description' => 'Edit a note on an article.',
+  //   'page callback' => 'jdt_user_notes_edit_page',
+  //   'page arguments' => array(1),
+  //   //'access callback' => 'comment_access',
+  //   'access arguments' => array('edit note'),
+  //   'type' => MENU_LOCAL_TASK,
+  //   'weight' => 3,
+  //   'file' => 'jdt_user_notes.admin.inc',
+  // );
+  return $items;
+}
+
+/**
+ * Page callback for note editing.
+ */
+function jdt_user_notes_edit_page($note_id) {
+	drupal_set_title(t('Edit note %note', array('%note' => $note_id)), PASS_THROUGH);
+  	$note = jdt_user_notes_load($note_id);
+  	return drupal_get_form("jdt_user_notes_edit_note_form", $note);
+}
+
+function jdt_user_notes_load($note){
+	$result = db_select('jdt_user_notes_article_notes', 'jun')
+		->fields('jun')
+		->condition('note_id', $note)
+		->execute()
+		->fetchObject();
+	return $result;
+}
+
+/**
+ * Access callback function to add note to article
+ */
+function jdt_user_notes_add_note_access_callback($node) {
+	return $node->type == 'article2' && user_access('add note');
+}
+
+/**
+ * Access callback function to edit a note
+ */
+function jdt_user_notes_edit_note_access_callback($note) {
+	global $user;
+	return $user->uid == $note->author_uid && user_access('edit note');
+}
        
 /*
  * Implementation of hook_permission()

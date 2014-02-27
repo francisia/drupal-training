@@ -8,7 +8,7 @@
  * Implements hook_schema().
  */
 function jdt_user_notes_schema() {
-  $schema['user_article_notes'] = array(
+  $schema['jdt_user_notes_article_notes'] = array(
     'description' => 'Table for user notes added to articles.',
     'fields' => array(
       'note_id' => array(
@@ -56,4 +56,8 @@ function jdt_user_notes_schema() {
     'primary key' => array('note_id'),
   );
   return $schema;
+}
+
+function jdt_user_notes_update_7001() {
+  db_rename_table('user_article_notes', 'jdt_user_notes_article_notes');
 }
