@@ -23,19 +23,13 @@
 /**
  * Form to add a note
  */
-function jdt_user_notes_add_note_form($form, &$form_state) {
+function jdt_user_notes_add_note_form($form, &$form_state, $node) {
 	global $user;
 	$form = array();
-	$node = '';
-	$nid = '';
-
-	if ($node = menu_get_object()) {
-		$nid = $node->nid;
-	} 
 	
 	$form['article_id'] = array(
 		'#type' => 'hidden',
-		'#value' => $nid,
+		'#value' => $node->nid,
 	);
 
 	$form['author_id'] = array(
