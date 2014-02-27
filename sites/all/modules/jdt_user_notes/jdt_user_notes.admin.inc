@@ -5,6 +5,29 @@
  * API functions for the jdt_user_notes module.
  */
 
+function jdt_user_notes_note_form_base(&$form, $article_id, $author_id, $note_text) {
+	$form['article_id'] = array(
+		'#type' => 'value',
+		'#value' => $article_id,
+	);
+
+	$form['author_id'] = array(
+		'#type' => 'value',
+		'#value' => $author_id,
+	);
+
+	$form['note_text'] = array(
+		'#type' => 'textarea',
+		'#title' => t('Note'),
+		'#default_value' => $note_text,
+	);
+
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Submit'),
+	);
+}
+
 /**
  * Form to add a note
  */
@@ -12,25 +35,7 @@ function jdt_user_notes_add_note_form($form, &$form_state, $node) {
 	global $user;
 	$form = array();
 	
-	$form['article_id'] = array(
-		'#type' => 'value',
-		'#value' => $node->nid,
-	);
-
-	$form['author_id'] = array(
-		'#type' => 'value',
-		'#value' => $user->uid,
-	);
-
-	$form['note_text'] = array(
-		'#type' => 'textarea',
-		'#title' => t('Note'),
-	);
-
-	$form['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Submit'),
-	);
+	jdt_user_notes_note_form_base($form, $node->nid, $user->uid, '');
 
 	return $form;
 }
@@ -52,27 +57,8 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 		'#type' => 'value',
 		'#value' => $note->note_id,
 	);
-	
-	$form['article_id'] = array(
-		'#type' => 'value',
-		'#value' => $note->article_nid,
-	);
 
-	$form['author_id'] = array(
-		'#type' => 'value',
-		'#value' => $note->author_uid,
-	);
-
-	$form['note_text'] = array(
-		'#type' => 'textarea',
-		'#title' => t('Note'),
-		'#default_value' => $note->note_text,
-	);
-
-	$form['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Submit'),
-	);
+	jdt_user_notes_note_form_base($form, $note->article_nid, $note->author_uid, $note->note_text);
 
 	return $form;
 }
