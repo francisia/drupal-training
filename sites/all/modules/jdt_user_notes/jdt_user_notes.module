@@ -17,7 +17,7 @@ function jdt_user_notes_menu() {
     'access arguments' => array(1),
     'file' => 'jdt_user_notes.admin.inc',
   );
-  $items['note/%note/edit'] = array(
+  $items['note/%jdt_user_notes_note/edit'] = array(
     'title' => 'Edit notes',
     'description' => 'Edit notes.',
     'page callback' => 'drupal_get_form',

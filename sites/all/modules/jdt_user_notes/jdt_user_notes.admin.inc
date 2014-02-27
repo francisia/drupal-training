@@ -51,7 +51,7 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 	$form = array();
 
 	$form['note_id'] = array(
-		'#type' => 'hidden',
+		'#type' => 'value',
 		'#value' => $note->note_id,
 	);
 	
