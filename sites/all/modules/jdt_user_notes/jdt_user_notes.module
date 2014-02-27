@@ -47,15 +47,6 @@ function jdt_user_notes_menu() {
 }
 
 /**
- * Page callback for note editing.
- */
-function jdt_user_notes_edit_page($note_id) {
-	drupal_set_title(t('Edit note %note', array('%note' => $note_id)), PASS_THROUGH);
-  	$note = jdt_user_notes_load($note_id);
-  	return drupal_get_form("jdt_user_notes_edit_note_form", $note);
-}
-
-/**
  * Loads the note object.
  */
 function jdt_user_notes_load($note_id){
