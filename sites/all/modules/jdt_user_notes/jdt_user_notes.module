@@ -43,7 +43,7 @@ function jdt_user_notes_note_load($note_id) {
 }
 
 /**
- * Access callback function to add note to article
+ * Access callback function to add note to article.
  */
 function jdt_user_notes_add_note_access_callback($node) {
   global $user;
@@ -51,31 +51,31 @@ function jdt_user_notes_add_note_access_callback($node) {
 }
 
 /**
- * Access callback function to edit a note
+ * Access callback function to edit a note.
  */
 function jdt_user_notes_edit_note_access_callback($note) {
   global $user;
   return in_array('administrator', $user->roles) || ($user->uid == $note->author_uid && user_access('edit note'));
 }
 
-/*
- * Implementation of hook_permission()
+/**
+ * Implements hook_permission().
  */
 function jdt_user_notes_permission() {
-   return array(
+  return array(
     'add note' => array(
       'title' => t('Add note'),
       'description' => t('Add notes to articles'),
-      ),
+    ),
     'edit note' => array(
       'title' => t('Edit note'),
       'description' => t('Edit notes on articles'),
       'restrict access' => TRUE,
-      ),
+    ),
     'delete note' => array(
       'title' => t('Delete note'),
       'description' => t('Delete notes from articles'),
       'restrict access' => TRUE,
-      ),
-    );
+    ),
+  );
 }

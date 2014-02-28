@@ -41,7 +41,7 @@ function jdt_content_type_article_views_default_views() {
     'field_related_articles' => 'field_related_articles',
     'field_contributor' => 'field_contributor',
   );
-  $handler->display->display_options['row_options']['separator'] = '<br>';
+  $handler->display->display_options['row_options']['separator'] = '<br />';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';

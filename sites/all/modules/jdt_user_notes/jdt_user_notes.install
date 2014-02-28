@@ -57,13 +57,20 @@ function jdt_user_notes_schema() {
   return $schema;
 }
 
+/**
+ * Renames the database table.
+ */
 function jdt_user_notes_update_7001() {
   db_rename_table('user_article_notes', 'jdt_user_notes_article_notes');
 }
 
+/**
+ * Changes field note_text to type text.
+ */
 function jdt_user_notes_update_7002() {
-  db_change_field('jdt_user_notes_article_notes', 'note_text', 'note_text', 
-    array('description' => 'The text of the note',
-        'type' => 'text',
-        'not null' => TRUE));
+  db_change_field('jdt_user_notes_article_notes', 'note_text', 'note_text',
+    array(
+      'description' => 'The text of the note',
+      'type' => 'text',
+      'not null' => TRUE));
 }
