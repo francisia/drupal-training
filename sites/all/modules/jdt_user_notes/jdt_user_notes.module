@@ -46,7 +46,8 @@ function jdt_user_notes_note_load($note_id){
  * Access callback function to add note to article
  */
 function jdt_user_notes_add_note_access_callback($node) {
-	return $node->type == 'article2' && user_access('add note');
+  global $user;
+	return in_array('administrator', $user->roles) || ($node->type == 'article2' && user_access('add note'));
 }
 
 /**
@@ -56,7 +57,7 @@ function jdt_user_notes_edit_note_access_callback($note) {
 	global $user;
 	return in_array('administrator', $user->roles) || ($user->uid == $note->author_uid && user_access('edit note'));
 }
-       
+
 /*
  * Implementation of hook_permission()
  */
