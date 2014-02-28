@@ -1,32 +1,30 @@
-<?php  
+<?php
+
+/**
+ * @file
+ * Code for the jdt_content_type_article feature module file.
+ */
 
 /**
  * Implements hook_update_N.
  */
 function jdt_content_type_article_update_7001() {
-	$module_list = array("ctools", "date", "features", "image", "strongarm", "text");
-	module_enable($module_list);
-	
-	return t('jdt_content_type_article module is up to date.');
+  $module_list = array("ctools", "date", "features", "image", "strongarm", "text");
+  module_enable($module_list);
+
+  return t('jdt_content_type_article module is up to date.');
 }
 
 function jdt_content_type_article_update_7002() {
-	$module_list = array("field_group", "node_reference", "user_reference");
-	module_enable($module_list);
-	
-	return t('jdt_content_type_article module is up to date.');
+  $module_list = array("field_group", "node_reference", "user_reference");
+  module_enable($module_list);
+
+  return t('jdt_content_type_article module is up to date.');
 }
 
 function jdt_content_type_article_update_7003() {
-	$module_list = array("views");
-	module_enable($module_list);
-	
-	return t('jdt_content_type_article module is up to date.');
-}
+  $module_list = array("views");
+  module_enable($module_list);
 
-function jdt_content_type_article_update_7004() {
-	$module_list = array("views_ui", "context", "context_ui", "search");
-	module_enable($module_list);
-	
-	return t('jdt_content_type_article module is up to date.');
+  return t('jdt_content_type_article module is up to date.');
 }

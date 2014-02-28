@@ -33,13 +33,13 @@ function jdt_user_notes_menu() {
 /**
  * Loads the note object.
  */
-function jdt_user_notes_note_load($note_id){
-	$result = db_select('jdt_user_notes_article_notes', 'jun')
-		->fields('jun')
-		->condition('note_id', $note_id)
-		->execute()
-		->fetchObject();
-	return $result;
+function jdt_user_notes_note_load($note_id) {
+  $result = db_select('jdt_user_notes_article_notes', 'jun')
+    ->fields('jun')
+    ->condition('note_id', $note_id)
+    ->execute()
+    ->fetchObject();
+  return $result;
 }
 
 /**
@@ -47,35 +47,35 @@ function jdt_user_notes_note_load($note_id){
  */
 function jdt_user_notes_add_note_access_callback($node) {
   global $user;
-	return in_array('administrator', $user->roles) || ($node->type == 'article2' && user_access('add note'));
+  return $node->type == 'article2' && (in_array('administrator', $user->roles) || user_access('add note'));
 }
 
 /**
  * Access callback function to edit a note
  */
 function jdt_user_notes_edit_note_access_callback($note) {
-	global $user;
-	return in_array('administrator', $user->roles) || ($user->uid == $note->author_uid && user_access('edit note'));
+  global $user;
+  return in_array('administrator', $user->roles) || ($user->uid == $note->author_uid && user_access('edit note'));
 }
 
 /*
  * Implementation of hook_permission()
  */
-function jdt_user_notes_permission(){
+function jdt_user_notes_permission() {
    return array(
-   	'add note' => array(
-   		'title' => t('Add note'),
-   		'description' => t('Add notes to articles'),
-   		),
-   	'edit note' => array(
-   		'title' => t('Edit note'),
-   		'description' => t('Edit notes on articles'),
-   		'restrict access' => TRUE,
-   		),
-   	'delete note' => array(
-   		'title' => t('Delete note'),
-   		'description' => t('Delete notes from articles'),
-   		'restrict access' => TRUE,
-   		),
-   	);
+    'add note' => array(
+      'title' => t('Add note'),
+      'description' => t('Add notes to articles'),
+      ),
+    'edit note' => array(
+      'title' => t('Edit note'),
+      'description' => t('Edit notes on articles'),
+      'restrict access' => TRUE,
+      ),
+    'delete note' => array(
+      'title' => t('Delete note'),
+      'description' => t('Delete notes from articles'),
+      'restrict access' => TRUE,
+      ),
+    );
 }

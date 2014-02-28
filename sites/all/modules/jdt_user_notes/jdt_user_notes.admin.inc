@@ -6,68 +6,68 @@
  */
 
 function jdt_user_notes_note_form_base(&$form, $article_id, $author_id, $note_text) {
-	$form['article_id'] = array(
-		'#type' => 'value',
-		'#value' => $article_id,
-	);
+  $form['article_id'] = array(
+    '#type' => 'value',
+    '#value' => $article_id,
+  );
 
-	$form['author_id'] = array(
-		'#type' => 'value',
-		'#value' => $author_id,
-	);
+  $form['author_id'] = array(
+    '#type' => 'value',
+    '#value' => $author_id,
+  );
 
-	$form['note_text'] = array(
-		'#type' => 'textarea',
-		'#title' => t('Note'),
-		'#default_value' => $note_text,
-	);
+  $form['note_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Note'),
+    '#default_value' => $note_text,
+  );
 
-	$form['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Submit'),
-	);
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
 }
 
 /**
  * Form to add a note
  */
 function jdt_user_notes_add_note_form($form, &$form_state, $node) {
-	global $user;
-	$form = array();
-	
-	jdt_user_notes_note_form_base($form, $node->nid, $user->uid, '');
+  global $user;
+  $form = array();
 
-	return $form;
+  jdt_user_notes_note_form_base($form, $node->nid, $user->uid, '');
+
+  return $form;
 }
 
 /**
  * Submit add note form
  */
 function jdt_user_notes_add_note_form_submit($form, &$form_state) {
-	jdt_user_notes_add_note($form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
+  jdt_user_notes_add_note($form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
 }
 
 /**
  * Form to edit a note
  */
 function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
-	$form = array();
+  $form = array();
 
-	$form['note_id'] = array(
-		'#type' => 'value',
-		'#value' => $note->note_id,
-	);
+  $form['note_id'] = array(
+    '#type' => 'value',
+    '#value' => $note->note_id,
+  );
 
-	jdt_user_notes_note_form_base($form, $note->article_nid, $note->author_uid, $note->note_text);
+  jdt_user_notes_note_form_base($form, $note->article_nid, $note->author_uid, $note->note_text);
 
-	return $form;
+  return $form;
 }
 
 /**
  * Submit edit note form
  */
 function jdt_user_notes_edit_note_form_submit($form, &$form_state) {
-	jdt_user_notes_update_note($form_state['values']['note_id'], $form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
+  jdt_user_notes_update_note($form_state['values']['note_id'], $form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
 }
 
 
@@ -79,21 +79,21 @@ function jdt_user_notes_edit_note_form_submit($form, &$form_state) {
  * @return
  *  The notes with the specific article id
  */
-function jdt_user_notes_get_notes($article_id = NULL){
-	if ($article_id == NULL) {
-		$results = db_select('jdt_user_notes_article_notes', 'jun')
-		->fields('jun')
-		->execute()
-		->fetchAssoc();
-	}
-	else {
-		$results = db_select('jdt_user_notes_article_notes', 'jun')
-		->fields('juc')
-		->condition('article_nid', $article_id)
-		->execute()
-		->fetchAssoc();
-	}
-	return $results;
+function jdt_user_notes_get_notes($article_id = NULL) {
+  if ($article_id == NULL) {
+    $results = db_select('jdt_user_notes_article_notes', 'jun')
+    ->fields('jun')
+    ->execute()
+    ->fetchAssoc();
+  }
+  else {
+    $results = db_select('jdt_user_notes_article_notes', 'jun')
+    ->fields('juc')
+    ->condition('article_nid', $article_id)
+    ->execute()
+    ->fetchAssoc();
+  }
+  return $results;
 }
 
 /**
@@ -106,14 +106,14 @@ function jdt_user_notes_get_notes($article_id = NULL){
  * @param $note_text
  *  The text of the note
  */
-function jdt_user_notes_add_note($article_id, $author_id, $note_text){
-	db_insert('jdt_user_notes_article_notes')
-	->fields(array(
-		'article_nid' => $article_id,
-		'author_uid' => $author_id,
-		'note_text' => $note_text,
-		))
-	->execute();
+function jdt_user_notes_add_note($article_id, $author_id, $note_text) {
+  db_insert('jdt_user_notes_article_notes')
+  ->fields(array(
+    'article_nid' => $article_id,
+    'author_uid' => $author_id,
+    'note_text' => $note_text,
+    ))
+  ->execute();
 }
 
 /**
@@ -128,15 +128,15 @@ function jdt_user_notes_add_note($article_id, $author_id, $note_text){
  * @param $note_text
  *  The text of the note
  */
-function jdt_user_notes_update_note($note_id, $article_id, $author_id, $note_text){
-	db_update('jdt_user_notes_article_notes')
-	->fields(array(
-		'article_nid' => $article_id,
-		'author_uid' => $author_id,
-		'note_text' => $note_text,
-		))
-	->condition('note_id', $note_id)
-	->execute();
+function jdt_user_notes_update_note($note_id, $article_id, $author_id, $note_text) {
+  db_update('jdt_user_notes_article_notes')
+  ->fields(array(
+    'article_nid' => $article_id,
+    'author_uid' => $author_id,
+    'note_text' => $note_text,
+    ))
+  ->condition('note_id', $note_id)
+  ->execute();
 }
 
 /**
@@ -144,10 +144,10 @@ function jdt_user_notes_update_note($note_id, $article_id, $author_id, $note_tex
  * @param $note_id
  *  The id of the note
  */
-function jdt_user_notes_delete_note($note_id){
-	db_delete('jdt_user_notes_article_notes')
-	->condition('note_id', $note_id)
-	->execute();
+function jdt_user_notes_delete_note($note_id) {
+  db_delete('jdt_user_notes_article_notes')
+  ->condition('note_id', $note_id)
+  ->execute();
 }
 
 
