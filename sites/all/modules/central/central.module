@@ -2,22 +2,17 @@
 
 /**
  * @file
- * Module file for the central module, which carries any global site configuration settings. 
+ * Module file for the central module, which carries any global site
+ * configuration settings.
  */
 
 /**
- * Implements hook_help.
+ * Implements hook_help().
  *
  * Displays help and module information.
- *
- * @param path
- *   Which path of the site we're using to display help
- * @param arg
- *   Array that holds the current path as returned from arg() function
  */
 function central_help($path, $arg) {
   if ($path == "admin/help#central") {
-      return t("Carries any global site configuration settings.") . '</p>';
+    return t("Carries any global site configuration settings.") . '</p>';
   }
-} 
-
+}

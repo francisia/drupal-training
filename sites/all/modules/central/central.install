@@ -1,25 +1,43 @@
 <?php
 
-
 /**
- * Implements hook_update_N.
+ * @file
+ * install file for the central module
  */
 
-
+/**
+ * Implements hook_update_N().
+ *
+ * Auto enable a list of modules
+ */
 function central_update_7001() {
-	$module_list = array("views", 
-		"features", 
-		"strongarm", 
-		"context", 
-		"pathauto", 
-		"diff", 
-		"libraries", 
-		"jquery_update", "devel", "module_filter", "admin_menu", "jdt_content_type_article");
-	module_enable($module_list);
-	
-	return t('Central module is updated.');
+  $module_list = array("views",
+    "features",
+    "strongarm",
+    "context",
+    "pathauto",
+    "diff",
+    "libraries",
+    "jquery_update", "devel", "module_filter", "admin_menu", "jdt_content_type_article");
+  module_enable($module_list);
+
+  return t('Central module is updated.');
 }
 
+/**
+ * Implements hook_update_N().
+ *
+ * Auto enable module jdt_content_type_article
+ */
 function central_update_7002() {
-	module_enable(array("jdt_content_type_article"));
+  module_enable(array("jdt_content_type_article"));
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Auto enable theme Coolthing
+ */
+function central_update_7003() {
+  theme_enable(array("coolthing"));
 }
