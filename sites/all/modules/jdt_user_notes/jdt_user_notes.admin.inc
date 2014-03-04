@@ -6,75 +6,6 @@
  */
 
 /**
- * Base of a form for jdt_user_notes.
- */
-function jdt_user_notes_note_form_base(&$form, $article_id, $author_id, $note_text) {
-  $form['article_id'] = array(
-    '#type' => 'value',
-    '#value' => $article_id,
-  );
-
-  $form['author_id'] = array(
-    '#type' => 'value',
-    '#value' => $author_id,
-  );
-
-  $form['note_text'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Note'),
-    '#default_value' => $note_text,
-  );
-
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Submit'),
-  );
-}
-
-/**
- * Form to add a note.
- */
-function jdt_user_notes_add_note_form($form, &$form_state, $node) {
-  global $user;
-  $form = array();
-
-  jdt_user_notes_note_form_base($form, $node->nid, $user->uid, '');
-
-  return $form;
-}
-
-/**
- * Submit add note form.
- */
-function jdt_user_notes_add_note_form_submit($form, &$form_state) {
-  jdt_user_notes_add_note($form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
-}
-
-/**
- * Form to edit a note.
- */
-function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
-  $form = array();
-
-  $form['note_id'] = array(
-    '#type' => 'value',
-    '#value' => $note->note_id,
-  );
-
-  jdt_user_notes_note_form_base($form, $note->article_nid, $note->author_uid, $note->note_text);
-
-  return $form;
-}
-
-/**
- * Submit edit note form.
- */
-function jdt_user_notes_edit_note_form_submit($form, &$form_state) {
-  jdt_user_notes_update_note($form_state['values']['note_id'], $form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
-}
-
-
-/**
  * Gets the notes with the specific article ID.
  *
  * @param int $article_id
@@ -88,14 +19,14 @@ function jdt_user_notes_get_notes($article_id = NULL) {
     $results = db_select('jdt_user_notes_article_notes', 'jun')
     ->fields('jun')
     ->execute()
-    ->fetchAssoc();
+    ->fetchAll();
   }
   else {
     $results = db_select('jdt_user_notes_article_notes', 'jun')
-    ->fields('juc')
+    ->fields('jun')
     ->condition('article_nid', $article_id)
     ->execute()
-    ->fetchAssoc();
+    ->fetchAll();
   }
   return $results;
 }

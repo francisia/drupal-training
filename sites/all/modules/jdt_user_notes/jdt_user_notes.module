@@ -8,14 +8,26 @@
  * Implements hook_menu().
  */
 function jdt_user_notes_menu() {
+  $items['node/%node/notelist'] = array(
+    'title' => 'View notes',
+    'description' => 'View all notes associated with this article.',
+    'page callback' => 'jdt_user_notes_note_list_page',
+    'page arguments' => array(1),
+    'access callback' => 'jdt_user_notes_note_access_callback',
+    'access arguments' => array('view notes', 1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+  );
   $items['node/%node/addnote'] = array(
     'title' => 'Add note',
     'description' => 'Add note.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_add_note_form', 1),
-    'access callback' => 'jdt_user_notes_add_note_access_callback',
-    'access arguments' => array(1),
-    'file' => 'jdt_user_notes.admin.inc',
+    'access callback' => 'jdt_user_notes_note_access_callback',
+    'access arguments' => array('add note', 1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
+    'file' => 'jdt_user_notes.forms.inc',
   );
   $items['note/%jdt_user_notes_note/edit'] = array(
     'title' => 'Edit notes',
@@ -23,11 +35,91 @@ function jdt_user_notes_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_edit_note_form', 1),
     'access callback' => 'jdt_user_notes_edit_note_access_callback',
-    'access arguments' => array(1),
-    'file' => 'jdt_user_notes.admin.inc',
+    'access arguments' => array('edit note', 1),
+    'file' => 'jdt_user_notes.forms.inc',
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function jdt_user_notes_theme($existing, $type, $theme, $path) {
+  return array(
+    'jdt_user_notes_template' => array(
+      'variables' => array(
+        'note_list' => NULL,
+      ),
+      'template' => 'jdt_user_notes_template',
+    ),
+  );
+}
+
+/**
+ * Displays the page with a list of notes associated with a specific article.
+ */
+function jdt_user_notes_note_list_page($article) {
+  module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
+  $note_list = jdt_user_notes_get_notes($article->nid);
+  $output = array(
+    '#theme' => 'jdt_user_notes_template',
+    '#type' => 'markup',
+    '#note_list' => $note_list,
+  );
+  return $output;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function jdt_user_notes_block_info() {
+  $blocks['jdt_user_notes'] = array(
+    'info' => t('User notes'),
+    'weight' => -11,
+    'status' => 1,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'article/*',
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Generates a block with a list of notes associated with a specific article.
+ */
+function jdt_user_notes_block_view($delta = '') {
+  if ((jdt_user_notes_user_is_admin() || user_access('view notes'))) {
+    $block['subject'] = t('User notes');
+    $block['content'] = jdt_user_notes_block_contents();
+
+    return $block;
+  }
+}
+
+/**
+ * Generates content for the note list block.
+ */
+function jdt_user_notes_block_contents() {
+  module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
+  $article = menu_get_object();
+  $note_list = jdt_user_notes_get_notes($article->nid);
+  $output = "<table><tr><th>Notes</th><th>Actions</th>";
+  foreach ($note_list as $note) {
+    $output .= "<tr><td>" . $note->note_text . "</td>";
+    $output .= "<td><a href='../note/" . $note->note_id . "/edit'>Edit</a></td></tr>";
+  }
+  $output .= "</table>";
+
+  if (count($note_list)) {
+    return $output;
+  }
+  else {
+    return t('No notes available on this article.');
+  }
 }
 
 /**
@@ -43,19 +135,26 @@ function jdt_user_notes_note_load($note_id) {
 }
 
 /**
- * Access callback function to add note to article.
+ * Checks if current user is an administrator.
  */
-function jdt_user_notes_add_note_access_callback($node) {
+function jdt_user_notes_user_is_admin() {
   global $user;
-  return $node->type == 'article2' && (in_array('administrator', $user->roles) || user_access('add note'));
+  return in_array('administrator', $user->roles);
+}
+
+/**
+ * Access callback function to view notes or add a note to article.
+ */
+function jdt_user_notes_note_access_callback($perm, $node) {
+  return $node->type == 'article2' && (jdt_user_notes_user_is_admin() || user_access($perm));
 }
 
 /**
  * Access callback function to edit a note.
  */
-function jdt_user_notes_edit_note_access_callback($note) {
+function jdt_user_notes_edit_note_access_callback($perm, $note) {
   global $user;
-  return in_array('administrator', $user->roles) || ($user->uid == $note->author_uid && user_access('edit note'));
+  return jdt_user_notes_user_is_admin() || ($user->uid == $note->author_uid && user_access($perm));
 }
 
 /**
@@ -63,6 +162,10 @@ function jdt_user_notes_edit_note_access_callback($note) {
  */
 function jdt_user_notes_permission() {
   return array(
+    'view notes' => array(
+      'title' => t('View notes'),
+      'description' => t('View all notes associated with a specific article'),
+    ),
     'add note' => array(
       'title' => t('Add note'),
       'description' => t('Add notes to articles'),
