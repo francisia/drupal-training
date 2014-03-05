@@ -6,21 +6,9 @@
 
 ?>
 
-<div class='jdt-user-notes-template'>
-  <?php if (count($note_list)) : ?>
-  <table>
-    <tr>
-      <th>Note</th>
-      <th>Actions</th>
-    </tr>
-    <?php foreach($note_list as $note): ?>
-    <tr>
-      <td><?php print $note->note_text ?></td>
-      <td><a href='../../note/<?php print $note->note_id ?>/edit'>Edit</a></td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
-  <?php else: ?>
-  <p>No notes available for this article</p>
-  <?php endif; ?>
+<div class='jdt-user-notes-<?php print $note->note_id ?>'>
+  <?php print $note->note_text ?><br />
+  <i>by <?php print $username ?></i><br />
+  <a href='../../note/<?php print $note->note_id ?>/edit'>Edit</a>
+  <br /><br />
 </div>

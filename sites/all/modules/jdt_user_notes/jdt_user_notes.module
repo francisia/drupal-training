@@ -49,9 +49,16 @@ function jdt_user_notes_theme($existing, $type, $theme, $path) {
   return array(
     'jdt_user_notes_template' => array(
       'variables' => array(
-        'note_list' => NULL,
+        'note' => NULL,
+        'username' => NULL,
       ),
       'template' => 'jdt_user_notes_template',
+    ),
+    'jdt_user_notes_block' => array(
+      'variables' => array(
+        'header' => NULL,
+        'rows' => NULL,
+      ),
     ),
   );
 }
@@ -60,13 +67,19 @@ function jdt_user_notes_theme($existing, $type, $theme, $path) {
  * Displays the page with a list of notes associated with a specific article.
  */
 function jdt_user_notes_note_list_page($article) {
+  global $user;
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   $note_list = jdt_user_notes_get_notes($article->nid);
-  $output = array(
-    '#theme' => 'jdt_user_notes_template',
-    '#type' => 'markup',
-    '#note_list' => $note_list,
-  );
+  $output = array();
+  foreach ($note_list as $note) {
+    $output[] = array(
+      '#theme' => 'jdt_user_notes_template',
+      '#type' => 'markup',
+      '#note' => $note,
+      '#username' => $user->name,
+      '#empty' => 'No notes available for this article',
+    );
+  }
   return $output;
 }
 
@@ -92,9 +105,11 @@ function jdt_user_notes_block_info() {
  * Generates a block with a list of notes associated with a specific article.
  */
 function jdt_user_notes_block_view($delta = '') {
+  $article = menu_get_object();
   if ((jdt_user_notes_user_is_admin() || user_access('view notes'))) {
     $block['subject'] = t('User notes');
-    $block['content'] = jdt_user_notes_block_contents();
+    $block['content'] = jdt_user_notes_block_build_contents($article->nid);
+    // theme('jdt_user_notes_block', array('article_id' => $article->nid));
 
     return $block;
   }
@@ -103,23 +118,35 @@ function jdt_user_notes_block_view($delta = '') {
 /**
  * Generates content for the note list block.
  */
-function jdt_user_notes_block_contents() {
+function jdt_user_notes_block_build_contents($article_id) {
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
-  $article = menu_get_object();
-  $note_list = jdt_user_notes_get_notes($article->nid);
-  $output = "<table><tr><th>Notes</th><th>Actions</th>";
+  $note_list = jdt_user_notes_get_notes($article_id);
+  $header = array('Notes', 'Actions');
+  $rows = array();
   foreach ($note_list as $note) {
-    $output .= "<tr><td>" . $note->note_text . "</td>";
-    $output .= "<td><a href='../note/" . $note->note_id . "/edit'>Edit</a></td></tr>";
+    $rows[] = array(
+      $note->note_text,
+      l(t('Edit'), '../note/' . $note->note_id . '/edit'),
+    );
   }
-  $output .= "</table>";
 
-  if (count($note_list)) {
-    return $output;
+  if ($rows) {
+    return theme('jdt_user_notes_block', array('header' => $header, 'rows' => $rows));
   }
   else {
     return t('No notes available on this article.');
   }
+}
+
+/**
+ * Returns table of user notes to be displayed in the jdt user notes block.
+ */
+function theme_jdt_user_notes_block($info) {
+  $variables = array(
+    'header' => $info['header'],
+    'rows' => $info['rows'],
+  );
+  return theme('table', $variables);
 }
 
 /**
