@@ -9,8 +9,8 @@
  */
 function jdt_user_notes_menu() {
   $items['node/%node/notelist'] = array(
-    'title' => t('View notes'),
-    'description' => t('View all notes associated with this article.'),
+    'title' => 'View notes',
+    'description' => 'View all notes associated with this article.',
     'page callback' => 'jdt_user_notes_note_list_page',
     'page arguments' => array(1),
     'access callback' => 'jdt_user_notes_note_access_callback',
@@ -19,8 +19,8 @@ function jdt_user_notes_menu() {
     'weight' => 2,
   );
   $items['node/%node/addnote'] = array(
-    'title' => t('Add note'),
-    'description' => t('Add note.'),
+    'title' => 'Add note',
+    'description' => 'Add note.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_add_note_form', 1),
     'access callback' => 'jdt_user_notes_note_access_callback',
@@ -30,8 +30,8 @@ function jdt_user_notes_menu() {
     'file' => 'jdt_user_notes.forms.inc',
   );
   $items['note/%jdt_user_notes_note/edit'] = array(
-    'title' => t('Edit notes'),
-    'description' => t('Edit notes.'),
+    'title' => 'Edit notes',
+    'description' => 'Edit notes.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_edit_note_form', 1),
     'access callback' => 'jdt_user_notes_edit_note_access_callback',
