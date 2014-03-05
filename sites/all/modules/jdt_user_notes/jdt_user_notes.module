@@ -9,8 +9,8 @@
  */
 function jdt_user_notes_menu() {
   $items['node/%node/notelist'] = array(
-    'title' => 'View notes',
-    'description' => 'View all notes associated with this article.',
+    'title' => t('View notes'),
+    'description' => t('View all notes associated with this article.'),
     'page callback' => 'jdt_user_notes_note_list_page',
     'page arguments' => array(1),
     'access callback' => 'jdt_user_notes_note_access_callback',
@@ -19,8 +19,8 @@ function jdt_user_notes_menu() {
     'weight' => 2,
   );
   $items['node/%node/addnote'] = array(
-    'title' => 'Add note',
-    'description' => 'Add note.',
+    'title' => t('Add note'),
+    'description' => t('Add note.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_add_note_form', 1),
     'access callback' => 'jdt_user_notes_note_access_callback',
@@ -30,8 +30,8 @@ function jdt_user_notes_menu() {
     'file' => 'jdt_user_notes.forms.inc',
   );
   $items['note/%jdt_user_notes_note/edit'] = array(
-    'title' => 'Edit notes',
-    'description' => 'Edit notes.',
+    'title' => t('Edit notes'),
+    'description' => t('Edit notes.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jdt_user_notes_edit_note_form', 1),
     'access callback' => 'jdt_user_notes_edit_note_access_callback',
@@ -77,7 +77,6 @@ function jdt_user_notes_note_list_page($article) {
       '#type' => 'markup',
       '#note' => $note,
       '#username' => $user->name,
-      '#empty' => 'No notes available for this article',
     );
   }
   return $output;
@@ -109,7 +108,6 @@ function jdt_user_notes_block_view($delta = '') {
   if ((jdt_user_notes_user_is_admin() || user_access('view notes'))) {
     $block['subject'] = t('User notes');
     $block['content'] = jdt_user_notes_block_build_contents($article->nid);
-    // theme('jdt_user_notes_block', array('article_id' => $article->nid));
 
     return $block;
   }
@@ -121,7 +119,7 @@ function jdt_user_notes_block_view($delta = '') {
 function jdt_user_notes_block_build_contents($article_id) {
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   $note_list = jdt_user_notes_get_notes($article_id);
-  $header = array('Notes', 'Actions');
+  $header = array(t('Notes'), t('Actions'));
   $rows = array();
   foreach ($note_list as $note) {
     $rows[] = array(
