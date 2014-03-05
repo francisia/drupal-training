@@ -1,3 +1,10 @@
+<?php
+/**
+ * @file
+ * Default template file for form
+ */
+?>
+
 <div class='form form-layout-default clearfix'>
   <div class='column-main'><div class='column-wrapper clearfix'>
     <?php print drupal_render_children($form); ?>

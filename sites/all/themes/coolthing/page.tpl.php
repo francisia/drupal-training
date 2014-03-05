@@ -1,3 +1,10 @@
+<?php
+/**
+ * @file
+ * Page template file
+ */
+?>
+
 <div id='branding'><div class='limiter clearfix'>
   <div class='breadcrumb clearfix'><?php print $breadcrumb ?></div>
   <?php if (!$overlay && isset($secondary_menu)) : ?>
@@ -14,7 +21,10 @@
   <?php print render($title_prefix); ?>
   <h1 class='page-title <?php print $page_icon_class ?>'>
     <?php if (!empty($page_icon_class)): ?><span class='icon'></span><?php endif; ?>
-    <?php if ($title) print $title ?>
+    <?php if ($title) :
+    print $title;
+    endif;
+    ?>
   </h1>
   <?php if ($action_links): ?>
     <ul class='action-links links clearfix'><?php print render($action_links) ?></ul>
@@ -27,9 +37,15 @@
 <?php endif; ?>
 
 <div id='page'><div id='main-content' class='limiter clearfix'>
-  <?php if ($page['help']) print render($page['help']) ?>
+  <?php if ($page['help']) :
+  print render($page['help']);
+  endif;
+  ?>
   <div id='content' class='page-content clearfix'>
-    <?php if (!empty($page['content'])) print render($page['content']) ?>
+    <?php if (!empty($page['content'])) :
+    print render($page['content']);
+    endif;
+    ?>
   </div>
 </div></div>
 

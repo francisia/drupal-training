@@ -1,4 +1,14 @@
-<?php if (!empty($pre_object)) print render($pre_object) ?>
+<?php
+/**
+ * @file
+ * Object template file
+ */
+?>
+
+<?php if (!empty($pre_object)) :
+print render($pre_object);
+endif;
+?>
 
 <div class='<?php print $classes ?> clearfix' <?php print ($attributes) ?>>
   <?php if ($layout && (!empty($submitted) || !empty($links))): ?>
@@ -23,19 +33,31 @@
     <div class='column-main'><div class='column-wrapper'>
   <?php endif; ?>
 
-  <?php if (!empty($title_prefix)) print render($title_prefix); ?>
+  <?php if (!empty($title_prefix)) :
+  print render($title_prefix);
+  endif;
+  ?>
 
   <?php if (!empty($title)): ?>
-    <h2 <?php if (!empty($title_attributes)) print $title_attributes ?>>
+    <h2 <?php if (!empty($title_attributes)) :
+        print $title_attributes;
+        endif;
+        ?>>
       <?php if (!empty($new)): ?><span class='new'><?php print $new ?></span><?php endif; ?>
       <?php print $title ?>
     </h2>
   <?php endif; ?>
 
-  <?php if (!empty($title_suffix)) print render($title_suffix); ?>
+  <?php if (!empty($title_suffix)):
+  print render($title_suffix);
+  endif;
+  ?>
 
   <?php if (!empty($content)): ?>
-    <div class='<?php print $hook ?>-content clearfix <?php if (!empty($is_prose)) print 'prose' ?>'>
+    <div class='<?php print $hook ?>-content clearfix <?php if (!empty($is_prose)) :
+    print 'prose';
+    endif;
+    ?>'>
       <?php print render($content) ?>
     </div>
   <?php endif; ?>
@@ -45,4 +67,6 @@
   <?php endif; ?>
 </div>
 
-<?php if (!empty($post_object)) print render($post_object) ?>
+<?php if (!empty($post_object)) :
+print render($post_object);
+endif;?>

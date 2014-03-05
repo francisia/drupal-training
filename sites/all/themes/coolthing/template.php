@@ -1,5 +1,10 @@
 <?php
-/*
+/**
+ * @file
+ * Template file for theme Coolthing
+ */
+
+/**
  * Implements hook_preprocess_html().
  */
 function coolthing_preprocess_html(&$vars) {
@@ -25,25 +30,25 @@ function coolthing_css_alter(&$css) {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function coolthing_theme() {
   $items = array();
 
   // Content theming.
-  $items['help'] =
-  $items['node'] =
-  $items['comment'] =
-  $items['comment_wrapper'] = array(
-    'path' => drupal_get_path('theme', 'coolthing') .'/templates',
-    'template' => 'object',
-  );
+  $items['help']
+    = $items['node']
+      = $items['comment']
+        = $items['comment_wrapper'] = array(
+          'path' => drupal_get_path('theme', 'coolthing') . '/templates',
+          'template' => 'object',
+        );
   $items['node']['template'] = 'node';
 
   // Help pages really need help. See preprocess_page().
   $items['help_page'] = array(
     'variables' => array('content' => array()),
-    'path' => drupal_get_path('theme', 'coolthing') .'/templates',
+    'path' => drupal_get_path('theme', 'coolthing') . '/templates',
     'template' => 'object',
     'preprocess functions' => array(
       'template_preprocess',
@@ -53,47 +58,47 @@ function coolthing_theme() {
   );
 
   // Form layout: default (2 column).
-  $items['block_add_block_form'] =
-  $items['block_admin_configure'] =
-  $items['comment_form'] =
-  $items['contact_admin_edit'] =
-  $items['contact_mail_page'] =
-  $items['contact_mail_user'] =
-  $items['filter_admin_format_form'] =
-  $items['forum_form'] =
-  $items['locale_languages_edit_form'] =
-  $items['menu_edit_menu'] =
-  $items['menu_edit_item'] =
-  $items['node_type_form'] =
-  $items['path_admin_form'] =
-  $items['system_settings_form'] =
-  $items['system_themes_form'] =
-  $items['system_modules'] =
-  $items['system_actions_configure'] =
-  $items['taxonomy_form_term'] =
-  $items['taxonomy_form_vocabulary'] =
-  $items['user_profile_form'] =
-  $items['user_admin_access_add_form'] = array(
-    'render element' => 'form',
-    'path' => drupal_get_path('theme', 'coolthing') .'/templates',
-    'template' => 'form-default',
-    'preprocess functions' => array(
-      'coolthing_preprocess_form_buttons',
-    ),
-  );
+  $items['block_add_block_form']
+    = $items['block_admin_configure']
+      = $items['comment_form']
+        = $items['contact_admin_edit']
+          = $items['contact_mail_page']
+            = $items['contact_mail_user']
+              = $items['filter_admin_format_form']
+                = $items['forum_form']
+                  = $items['locale_languages_edit_form']
+                    = $items['menu_edit_menu']
+                      = $items['menu_edit_item']
+                        = $items['node_type_form']
+                          = $items['path_admin_form']
+                            = $items['system_settings_form']
+                              = $items['system_themes_form']
+                                = $items['system_modules']
+                                  = $items['system_actions_configure']
+                                    = $items['taxonomy_form_term']
+                                      = $items['taxonomy_form_vocabulary']
+                                        = $items['user_profile_form']
+                                          = $items['user_admin_access_add_form'] = array(
+                                            'render element' => 'form',
+                                            'path' => drupal_get_path('theme', 'coolthing') . '/templates',
+                                            'template' => 'form-default',
+                                            'preprocess functions' => array(
+                                              'coolthing_preprocess_form_buttons',
+                                            ),
+                                          );
 
   // These forms require additional massaging.
   $items['confirm_form'] = array(
     'render element' => 'form',
-    'path' => drupal_get_path('theme', 'coolthing') .'/templates',
+    'path' => drupal_get_path('theme', 'coolthing') . '/templates',
     'template' => 'form-simple',
     'preprocess functions' => array(
-      'coolthing_preprocess_form_confirm'
+      'coolthing_preprocess_form_confirm',
     ),
   );
   $items['node_form'] = array(
     'render element' => 'form',
-    'path' => drupal_get_path('theme', 'coolthing') .'/templates',
+    'path' => drupal_get_path('theme', 'coolthing') . '/templates',
     'template' => 'form-default',
     'preprocess functions' => array(
       'coolthing_preprocess_form_buttons',
@@ -110,11 +115,11 @@ function coolthing_theme() {
 function coolthing_preprocess_page(&$vars) {
   // Show a warning if base theme is not present.
   if (!function_exists('tao_theme') && user_access('administer site configuration')) {
-    drupal_set_message(t('The coolthing theme requires the !tao base theme in order to work properly.', array('!tao' => l('Tao', 'http://drupal.org/project/tao'))), 'warning');
+    drupal_set_message(t('The coolthing theme requires the !tao base theme in order to work properly.', array('%tao' => l(t('Tao'), 'http://drupal.org/project/tao'))), 'warning');
   }
 
   // Set a page icon class.
-  $vars['page_icon_class'] = ($item = menu_get_item()) ? implode(' ' , _coolthing_icon_classes($item['href'])) : '';
+  $vars['page_icon_class'] = ($item = menu_get_item()) ? implode(' ', _coolthing_icon_classes($item['href'])) : '';
 
   // Help pages. They really do need help.
   if (strpos($_GET['q'], 'admin/help/') === 0 && isset($vars['page']['content']['system_main']['main']['#markup'])) {
@@ -156,7 +161,7 @@ function coolthing_preprocess_form_buttons(&$vars) {
  * Preprocessor for theme('confirm_form').
  */
 function coolthing_preprocess_form_confirm(&$vars) {
-  // Move the title from the page title (usually too big and unwieldy)
+  // Move the title from the page title (usually too big and unwieldy).
   $title = filter_xss_admin(drupal_get_title());
   $vars['form']['description']['#type'] = 'item';
   $vars['form']['description']['#value'] = empty($vars['form']['description']['#value']) ?
@@ -324,11 +329,11 @@ function coolthing_preprocess_comment_wrapper(&$vars) {
 function coolthing_preprocess_admin_block(&$vars) {
   // Add icon and classes to admin block titles.
   if (isset($vars['block']['href'])) {
-    $vars['block']['localized_options']['attributes']['class'] =  _coolthing_icon_classes($vars['block']['href']);
+    $vars['block']['localized_options']['attributes']['class'] = _coolthing_icon_classes($vars['block']['href']);
   }
   $vars['block']['localized_options']['html'] = TRUE;
   if (isset($vars['block']['link_title'])) {
-    $vars['block']['title'] = l("<span class='icon'></span>" . filter_xss_admin($vars['block']['title']), $vars['block']['href'], $vars['block']['localized_options']);
+    $vars['block']['title'] = l(t("<span class='icon'></span>") . filter_xss_admin($vars['block']['title']), $vars['block']['href'], $vars['block']['localized_options']);
   }
 
   if (empty($vars['block']['content'])) {
@@ -353,7 +358,7 @@ function coolthing_breadcrumb($vars) {
 
   // Optional: Add the site name to the front of the stack.
   if (!empty($vars['prepend'])) {
-    $site_name = empty($vars['breadcrumb']) ? "<strong>". check_plain(variable_get('site_name', '')) ."</strong>" : l(variable_get('site_name', ''), '<front>', array('purl' => array('disabled' => TRUE)));
+    $site_name = empty($vars['breadcrumb']) ? "<strong>" . check_plain(variable_get('site_name', '')) . "</strong>" : l(variable_get('site_name', ''), '<front>', array('purl' => array('disabled' => TRUE)));
     array_unshift($vars['breadcrumb'], $site_name);
   }
 
@@ -398,7 +403,7 @@ function coolthing_node_add_list($vars) {
       $item['localized_options']['html'] = TRUE;
       $output .= "<li>";
       $output .= l($item['title'], $item['href'], $item['localized_options']);
-      $output .= '<div class="description">'. filter_xss_admin($item['description']) .'</div>';
+      $output .= '<div class="description">' . filter_xss_admin($item['description']) . '</div>';
       $output .= "</li>";
     }
   }
@@ -417,7 +422,7 @@ function coolthing_admin_block_content($vars) {
 
     foreach ($content as $k => $item) {
 
-      //-- Safety check for invalid clients of the function
+      // -- Safety check for invalid clients of the function.
       if (empty($content[$k]['localized_options']['attributes']['class'])) {
         $content[$k]['localized_options']['attributes']['class'] = array();
       }
@@ -475,7 +480,7 @@ function coolthing_preprocess_textfield(&$vars) {
     $vars['element']['#size'] = '';
     if (!isset($vars['element']['#attributes']['class'])
       || !is_array($vars['element']['#attributes']['class'])) {
-       $vars['element']['#attributes']['class'] = array();
+      $vars['element']['#attributes']['class'] = array();
     }
     $vars['element']['#attributes']['class'][] = 'fluid';
   }
@@ -546,9 +551,9 @@ function _coolthing_icon_classes($path) {
   if ($args[0] === 'admin' || (count($args) > 1 && $args[0] === 'node' && $args[1] === 'add')) {
     // Add a class specifically for the current path that allows non-cascading
     // style targeting.
-    $classes[] = 'path-'. str_replace('/', '-', implode('/', $args)) . '-';
+    $classes[] = 'path-' . str_replace('/', '-', implode('/', $args)) . '-';
     while (count($args)) {
-      $classes[] = drupal_html_class('path-'. str_replace('/', '-', implode('/', $args)));
+      $classes[] = drupal_html_class('path-' . str_replace('/', '-', implode('/', $args)));
       array_pop($args);
     }
     return $classes;
@@ -556,6 +561,9 @@ function _coolthing_icon_classes($path) {
   return array();
 }
 
+/**
+ * Coolthing local tasks.
+ */
 function _coolthing_local_tasks(&$vars) {
   if (!empty($vars['secondary_local_tasks']) && is_array($vars['primary_local_tasks'])) {
     foreach ($vars['primary_local_tasks'] as $key => $element) {
@@ -566,4 +574,3 @@ function _coolthing_local_tasks(&$vars) {
     }
   }
 }
-

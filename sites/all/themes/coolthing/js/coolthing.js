@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Javascript file for Drupal behavior
+ */
+
+?>
+
 /**
  * Implementation of Drupal behavior.
  */
