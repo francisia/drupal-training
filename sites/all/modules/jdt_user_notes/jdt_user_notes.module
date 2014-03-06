@@ -51,6 +51,7 @@ function jdt_user_notes_theme($existing, $type, $theme, $path) {
       'variables' => array(
         'note' => NULL,
         'username' => NULL,
+        'edit_link' => NULL,
       ),
       'template' => 'jdt_user_notes_template',
     ),
@@ -77,6 +78,7 @@ function jdt_user_notes_note_list_page($article) {
       '#type' => 'markup',
       '#note' => $note,
       '#username' => $user->name,
+      '#edit_link' => l(t('Edit'), 'note/' . $note->note_id . '/edit'),
     );
   }
   return $output;
@@ -117,14 +119,15 @@ function jdt_user_notes_block_view($delta = '') {
  * Generates content for the note list block.
  */
 function jdt_user_notes_block_build_contents($article_id) {
+  global $base_url;
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   $note_list = jdt_user_notes_get_notes($article_id);
   $header = array(t('Notes'), t('Actions'));
   $rows = array();
   foreach ($note_list as $note) {
     $rows[] = array(
-      $note->note_text,
-      l(t('Edit'), '../note/' . $note->note_id . '/edit'),
+      check_plain($note->note_text),
+      l(t('Edit'), $base_url . '/note/' . $note->note_id . '/edit'),
     );
   }
 
