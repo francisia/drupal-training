@@ -41,3 +41,13 @@ function central_update_7002() {
 function central_update_7003() {
   theme_enable(array("coolthing"));
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Sets Coolthing as the default theme and admin theme
+ */
+function central_update_7004() {
+  variable_set('theme_default', 'coolthing');
+  variable_set('admin_theme', 'coolthing');
+}
