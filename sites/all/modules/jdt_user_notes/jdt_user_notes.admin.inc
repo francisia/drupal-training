@@ -16,15 +16,21 @@
  */
 function jdt_user_notes_get_notes($article_id = NULL) {
   if ($article_id == NULL) {
-    $results = db_select('jdt_user_notes_article_notes', 'jun')
+    $query = db_select('jdt_user_notes_article_notes', 'jun')
     ->fields('jun')
+    ->extend('PagerDefault')
+    ->limit(10);
+    $results = $query
     ->execute()
     ->fetchAll();
   }
   else {
-    $results = db_select('jdt_user_notes_article_notes', 'jun')
+    $query = db_select('jdt_user_notes_article_notes', 'jun')
     ->fields('jun')
     ->condition('article_nid', $article_id)
+    ->extend('PagerDefault')
+    ->limit(10);
+    $results = $query
     ->execute()
     ->fetchAll();
   }

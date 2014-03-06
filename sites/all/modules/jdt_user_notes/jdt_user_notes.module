@@ -71,6 +71,7 @@ function jdt_user_notes_note_list_page($article) {
   global $user;
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   $note_list = jdt_user_notes_get_notes($article->nid);
+  // pager_default_initialize(count($note_list), 10);
   $output = array();
   foreach ($note_list as $note) {
     $output[] = array(
@@ -81,6 +82,7 @@ function jdt_user_notes_note_list_page($article) {
       '#edit_link' => l(t('Edit'), 'note/' . $note->note_id . '/edit'),
     );
   }
+  $output[] = array('#theme' => 'pager');
   return $output;
 }
 
@@ -132,7 +134,8 @@ function jdt_user_notes_block_build_contents($article_id) {
   }
 
   if ($rows) {
-    return theme('jdt_user_notes_block', array('header' => $header, 'rows' => $rows));
+    $output = theme('jdt_user_notes_block', array('header' => $header, 'rows' => $rows)) . theme('pager', array('element' => 1));
+    return $output;
   }
   else {
     return t('No notes available on this article.');
