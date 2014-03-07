@@ -38,8 +38,56 @@ function jdt_user_notes_menu() {
     'access arguments' => array('edit note', 1),
     'file' => 'jdt_user_notes.forms.inc',
   );
+  $items['modal_forms/%ctools_js/note/%jdt_user_notes_note/edit'] = array(
+    'title' => 'User Note',
+    'page callback' => 'jdt_user_notes_modal_form_popup',
+    'page arguments' => array('jdt_user_notes_edit_note_form', 3, 1),
+    'access callback' => 'jdt_user_notes_edit_note_access_callback',
+    'access arguments' => array('edit note', 3),
+    'type' => MENU_CALLBACK,
+  );
+  $items['modal_forms/%ctools_js/article/%node/addnote'] = array(
+    'title' => 'User Note',
+    'page callback' => 'jdt_user_notes_modal_form_popup',
+    'page arguments' => array('jdt_user_notes_add_note_form', 3, 1),
+    'access callback' => 'jdt_user_notes_note_access_callback',
+    'access arguments' => array('add note', 3),
+    'type' => MENU_CALLBACK,
+  );
 
   return $items;
+}
+
+/**
+ * Generates the modal form popup.
+ */
+function jdt_user_notes_modal_form_popup($form_id, $node, $js = NULL) {
+  module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.forms');
+  $output = array();
+  if (!$js) {
+    return drupal_get_form($form_id, $node);
+  }
+
+  ctools_include('modal');
+  ctools_include('ajax');
+
+  $form_state = array(
+    'build_info' => array(
+      'args' => array(
+        $node,
+      ),
+    ),
+    'ajax' => TRUE,
+  );
+
+  $output = ctools_modal_form_wrapper($form_id, $form_state);
+
+  if (!empty($form_state['ajax_commands'])) {
+    $output = $form_state['ajax_commands'];
+  }
+
+  print ajax_render($output);
+  drupal_exit();
 }
 
 /**
@@ -122,19 +170,30 @@ function jdt_user_notes_block_view($delta = '') {
  */
 function jdt_user_notes_block_build_contents($article_id) {
   global $base_url;
+  ctools_include('modal');
+  ctools_modal_add_js();
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
+
   $note_list = jdt_user_notes_get_notes($article_id);
   $header = array(t('Notes'), t('Actions'));
   $rows = array();
   foreach ($note_list as $note) {
     $rows[] = array(
       check_plain($note->note_text),
-      l(t('Edit'), $base_url . '/note/' . $note->note_id . '/edit'),
+      l(t('Edit'), $base_url . '/modal_forms/nojs/note/' . $note->note_id . '/edit', array('attributes' => array('class' => array('ctools-use-modal', 'ctools-modal-modal-popup-medium')))),
     );
   }
 
   if ($rows) {
-    $output = theme('jdt_user_notes_block', array('header' => $header, 'rows' => $rows)) . theme('pager', array('element' => 1));
+    $output = theme(
+      'jdt_user_notes_block',
+      array(
+        'header' => $header,
+        'rows' => $rows,
+        'article_id' => $article_id,
+      )
+    );
+    $output .= theme('pager', array('element' => 1));
     return $output;
   }
   else {
@@ -146,11 +205,13 @@ function jdt_user_notes_block_build_contents($article_id) {
  * Returns table of user notes to be displayed in the jdt user notes block.
  */
 function theme_jdt_user_notes_block($info) {
+  global $base_url;
+  $output = l(t('Add a note'), $base_url . '/modal_forms/nojs/article/' . $info['article_id'] . '/addnote', array('attributes' => array('class' => array('ctools-use-modal', 'ctools-modal-modal-popup-medium'))));
   $variables = array(
     'header' => $info['header'],
     'rows' => $info['rows'],
   );
-  return theme('table', $variables);
+  return $output . theme('table', $variables);
 }
 
 /**

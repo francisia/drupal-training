@@ -25,9 +25,15 @@ function jdt_user_notes_note_form_base(&$form, $article_id, $author_id, $note_te
     '#default_value' => $note_text,
   );
 
-  $form['submit'] = array(
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
+  );
+
+  $form['actions']['cancel'] = array(
+    '#prefix' => '&nbsp; &nbsp; &nbsp;',
+    '#markup' => l(t('Cancel'), 'article/' . $article_id),
   );
 }
 
@@ -38,7 +44,13 @@ function jdt_user_notes_add_note_form($form, &$form_state, $node) {
   global $user;
   $form = array();
 
-  jdt_user_notes_note_form_base($form, $node->nid, $user->uid, '');
+  if ($node) {
+    $article_id = $node->nid;
+  }
+  else {
+    $article_id = $form_state['build_info']['args'][0]->nid;
+  }
+  jdt_user_notes_note_form_base($form, $article_id, $user->uid, '');
 
   return $form;
 }
@@ -49,6 +61,9 @@ function jdt_user_notes_add_note_form($form, &$form_state, $node) {
 function jdt_user_notes_add_note_form_submit($form, &$form_state) {
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   jdt_user_notes_add_note($form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
+
+  $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+  $form_state['ajax_commands'][] = ctools_ajax_command_reload();
 }
 
 /**
@@ -62,7 +77,18 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
     '#value' => $note->note_id,
   );
 
-  jdt_user_notes_note_form_base($form, $note->article_nid, $note->author_uid, $note->note_text);
+  if ($note) {
+    $article_id = $note->article_nid;
+    $author_id = $note->author_uid;
+    $note_text = $note->note_text;
+  }
+  else {
+    $article_id = $form_state['build_info']['args'][0]->article_nid;
+    $author_id = $form_state['build_info']['args'][0]->author_uid;
+    $note_text = $form_state['build_info']['args'][0]->note_text;
+  }
+
+  jdt_user_notes_note_form_base($form, $article_id, $author_id, $note_text);
 
   return $form;
 }
@@ -73,4 +99,7 @@ function jdt_user_notes_edit_note_form($form, &$form_state, $note) {
 function jdt_user_notes_edit_note_form_submit($form, &$form_state) {
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   jdt_user_notes_update_note($form_state['values']['note_id'], $form_state['values']['article_id'], $form_state['values']['author_id'], $form_state['values']['note_text']);
+
+  $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+  $form_state['ajax_commands'][] = ctools_ajax_command_reload();
 }
