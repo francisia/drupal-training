@@ -146,6 +146,9 @@ function jdt_user_notes_block_info() {
     'visibility' => BLOCK_VISIBILITY_LISTED,
     'pages' => 'article/*',
   );
+  $blocks['jdt_user_notes_statistics'] = array(
+    'info' => t('User notes statistics'),
+  );
 
   return $blocks;
 }
@@ -156,13 +159,51 @@ function jdt_user_notes_block_info() {
  * Generates a block with a list of notes associated with a specific article.
  */
 function jdt_user_notes_block_view($delta = '') {
-  $article = menu_get_object();
-  if ((jdt_user_notes_user_is_admin() || user_access('view notes'))) {
-    $block['subject'] = t('User notes');
-    $block['content'] = jdt_user_notes_block_build_contents($article->nid);
+  $block = array();
+  switch ($delta) {
+    case 'jdt_user_notes':
+      $article = menu_get_object();
+      if ((jdt_user_notes_user_is_admin() || user_access('view notes'))) {
+        $block['subject'] = t('User notes');
+        $block['content'] = jdt_user_notes_block_build_contents($article->nid);
+      }
+      break;
 
-    return $block;
+    case 'jdt_user_notes_statistics':
+      $block['subject'] = t('User notes statistics');
+      $block['content'] = jdt_user_notes_statistics_block_build_contents();
+      break;
   }
+
+  return $block;
+}
+
+/**
+ * Generates content for the statistics block.
+ */
+function jdt_user_notes_statistics_block_build_contents() {
+  module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
+  $result_articles = db_select('node', 'n')
+    ->fields('n')
+    ->condition('type', 'article2')
+    ->execute();
+  $nb_articles = $result_articles->rowCount();
+  $nb_articles_str = "Number of articles on the site: $nb_articles <br />";
+
+  $nb_notes = count(jdt_user_notes_get_notes());
+  $nb_notes_str = "Total number of notes on the site: $nb_notes <br />";
+
+  $query = db_select('users_roles', 'ur');
+  $query->join('role', 'r', 'r.rid = ur.rid');
+  $result_auth_users = $query
+    ->fields('ur', array('uid'))
+    ->condition('r.name', 'authenticated user')
+    ->execute();
+  $nb_auth_users = $result_auth_users->rowCount();
+  $nb_auth_users_str = "Total number of authenticated users on the site: $nb_auth_users";
+
+  $items = array($nb_articles_str, $nb_notes_str, $nb_auth_users_str);
+  return theme('item_list', array('items' => $items));
 }
 
 /**
