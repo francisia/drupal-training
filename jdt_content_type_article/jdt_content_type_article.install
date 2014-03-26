@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Code for the jdt_content_type_article feature module file.
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Adds new modules that must be enabled
+ */
+function jdt_content_type_article_update_7001() {
+  $module_list = array(
+    "ctools",
+    "date",
+    "features",
+    "image",
+    "strongarm",
+    "text",
+  );
+  module_enable($module_list);
+
+  return t('jdt_content_type_article module is up to date.');
+}
+
+/**
+ * Adds new modules that must be enabled.
+ */
+function jdt_content_type_article_update_7002() {
+  $module_list = array("field_group", "node_reference", "user_reference");
+  module_enable($module_list);
+
+  return t('jdt_content_type_article module is up to date.');
+}
+
+/**
+ * Adds Views module to the list of modules to be enabled.
+ */
+function jdt_content_type_article_update_7003() {
+  $module_list = array("views");
+  module_enable($module_list);
+
+  return t('jdt_content_type_article module is up to date.');
+}

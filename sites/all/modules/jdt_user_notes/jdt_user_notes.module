@@ -116,7 +116,6 @@ function jdt_user_notes_theme($existing, $type, $theme, $path) {
  * Displays the page with a list of notes associated with a specific article.
  */
 function jdt_user_notes_note_list_page($article) {
-  global $user;
   module_load_include('inc', 'jdt_user_notes', 'jdt_user_notes.admin');
   $note_list = jdt_user_notes_get_notes($article->nid);
   // pager_default_initialize(count($note_list), 10);
@@ -126,7 +125,6 @@ function jdt_user_notes_note_list_page($article) {
       '#theme' => 'jdt_user_notes_template',
       '#type' => 'markup',
       '#note' => $note,
-      '#username' => $user->name,
       '#edit_link' => l(t('Edit'), 'note/' . $note->note_id . '/edit'),
     );
   }
@@ -190,7 +188,10 @@ function jdt_user_notes_statistics_block_build_contents() {
   $nb_articles = $result_articles->rowCount();
   $nb_articles_str = "Number of articles on the site: $nb_articles <br />";
 
-  $nb_notes = count(jdt_user_notes_get_notes());
+  $result_notes = db_select('jdt_user_notes_article_notes', 'jun')
+    ->fields('jun')
+    ->execute();
+  $nb_notes = $result_notes->rowCount();
   $nb_notes_str = "Total number of notes on the site: $nb_notes <br />";
 
   $query = db_select('users_roles', 'ur');
@@ -313,5 +314,15 @@ function jdt_user_notes_permission() {
       'description' => t('Delete notes from articles'),
       'restrict access' => TRUE,
     ),
+  );
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function jdt_user_notes_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'jdt_user_notes'),
   );
 }
