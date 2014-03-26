@@ -101,5 +101,38 @@ function jdt_content_type_article_context_default_contexts() {
   t('The context for the front page');
   $export['frontpage_context'] = $context;
 
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'statistics_block_context';
+  $context->description = 'A context for the statistics block';
+  $context->tag = '';
+  $context->conditions = array(
+    'user' => array(
+      'values' => array(
+        'administrator' => 'administrator',
+        'authenticated user' => 'authenticated user',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'jdt_user_notes-jdt_user_notes_statistics' => array(
+          'module' => 'jdt_user_notes',
+          'delta' => 'jdt_user_notes_statistics',
+          'region' => 'content',
+          'weight' => '14',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('A context for the statistics block');
+  $export['statistics_block_context'] = $context;
+
   return $export;
 }

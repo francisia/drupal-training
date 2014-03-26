@@ -41,7 +41,7 @@ function jdt_content_type_article_views_default_views() {
     'field_related_articles' => 'field_related_articles',
     'field_contributor' => 'field_contributor',
   );
-  $handler->display->display_options['row_options']['separator'] = '<br />';
+  $handler->display->display_options['row_options']['separator'] = '<br>';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
@@ -105,6 +105,31 @@ function jdt_content_type_article_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'articles';
+  $translatables['articles'] = array(
+    t('Master'),
+    t('Articles'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Title'),
+    t('Slug'),
+    t('Article Image'),
+    t('Body'),
+    t('Article Date'),
+    t('Related Articles'),
+    t('Contributor'),
+    t('Page'),
+  );
   $export['articles'] = $view;
 
   return $export;
